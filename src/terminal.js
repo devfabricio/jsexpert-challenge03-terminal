@@ -13,7 +13,11 @@ class CustomTerminal {
   }
 
   initialize() {
-    // TODO: Initialize your terminal with the main instance
+    DraftLog.into(console).addLineListener(process.stdin)
+    this.terminal = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    })
   }
   // TODO: You'll need more methods down here as well, be creative
 }
