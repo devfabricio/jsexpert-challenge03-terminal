@@ -13,12 +13,21 @@ class CustomTerminal {
   }
 
   initialize() {
-    DraftLog.into(console).addLineListener(process.stdin)
+    DraftLog(console).addLineListener(process.stdin)
     this.terminal = readline.createInterface({
       input: process.stdin,
       output: process.stdout
     })
   }
+
+  message(text = '') {
+    return new Promise(resolve => this.terminal.question(text, resolve))
+  }
+
+  close() {
+    this.terminal.close()
+  }
+
   // TODO: You'll need more methods down here as well, be creative
 }
 

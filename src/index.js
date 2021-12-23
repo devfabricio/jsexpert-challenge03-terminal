@@ -11,13 +11,16 @@ terminal.initialize();
 const service = new IncomeService();
 
 async function mainLoop() {
-  console.info('🚀 Running...\n');
   try {
-    // TODO: Looks like you have some work to do right here :)
+    const message = await terminal.message('> ')
+    if(message === VOCABULARY.STOP) {
+      terminal.close()
+      return
+    }
   } catch (error) {
-    // TODO: Don't forget of handling some errors beautifully ;)
+    console.log('Error:', error)
   }
-  return mainLoop();
+  return mainLoop()
 }
 
 await mainLoop();
