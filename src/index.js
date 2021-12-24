@@ -17,6 +17,8 @@ async function mainLoop() {
       terminal.close()
       return
     }
+    const income = service.generateIncomeFromString(message)
+    terminal.updateTable(income)
   } catch (error) {
     console.log('Error:', error)
   }

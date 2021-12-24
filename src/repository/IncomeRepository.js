@@ -4,13 +4,22 @@ const API_BASE_URL = 'http://localhost:3000';
 
 class IncomeRepository {
   async makeRequest(url) {
-    // @TODO: Implement method
-    return null;
+    new Promise((resolve, reject) => {
+      http.get(url, (response) => {
+        const result = ''
+        response.on('data', (chunk) => {
+          result += chunk
+        })
+        response.on('end', () => {
+          resolve(JSON.parse(result))
+        }).on('error', () => reject)
+      })
+    })
   }
 
   async getConversions() {
-    // @TODO: Implement method
-    return null;
+    const response = await this.makeRequest(`${API_BASE_URL}/convert`);
+    return response.results
   }
 }
 

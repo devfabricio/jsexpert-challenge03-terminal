@@ -30,9 +30,12 @@ class Income {
 
   static formatCurrency({ currency, value, language }) {
     const _language = language || defaultLanguage;
-
-    // TODO: Implement method
-    return null;
+    console.log(new Intl.NumberFormat(language, {
+      style: 'currency', currency
+    }).format(value))
+    return new Intl.NumberFormat(language, {
+      style: 'currency', currency
+    }).format(value)
   }
 }
 

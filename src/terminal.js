@@ -3,6 +3,7 @@ import chalkTable from 'chalk-table';
 import chalk from 'chalk';
 import readline from 'readline';
 import terminalConfig from './config/terminal.js';
+import Income from './entity/Income.js';
 
 const TABLE_OPTIONS = terminalConfig.table;
 
@@ -18,6 +19,20 @@ class CustomTerminal {
       input: process.stdin,
       output: process.stdout
     })
+    this.initTable()
+  }
+
+  initTable(database = []) {
+    const data = database.map(item => new Income(item).format())
+    const table = chalkTable(terminalConfig.table, data)
+    this.print = console.draft(table)
+    this.data = data
+  }
+
+  updateTable(income) {
+    this.data.push(new Income(income).format())
+    const table = chalkTable(terminalConfig.table, this.data)
+    this.print(table)
   }
 
   message(text = '') {
