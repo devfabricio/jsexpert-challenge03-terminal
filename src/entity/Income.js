@@ -19,7 +19,6 @@ class Income {
 
   format() {
     return {
-      id: this.id,
       position: this.position,
       expectation: Income.formatCurrency(this.expectation),
       conversion01: Income.formatCurrency(this.conversion01),
@@ -30,10 +29,7 @@ class Income {
 
   static formatCurrency({ currency, value, language }) {
     const _language = language || defaultLanguage;
-    console.log(new Intl.NumberFormat(language, {
-      style: 'currency', currency
-    }).format(value))
-    return new Intl.NumberFormat(language, {
+    return new Intl.NumberFormat(_language, {
       style: 'currency', currency
     }).format(value)
   }

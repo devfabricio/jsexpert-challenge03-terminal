@@ -4,6 +4,8 @@ import chalk from 'chalk';
 import readline from 'readline';
 import terminalConfig from './config/terminal.js';
 import Income from './entity/Income.js';
+import messages from './config/messages.js';
+const { success : { registerInserted } } = messages
 
 const TABLE_OPTIONS = terminalConfig.table;
 
@@ -14,7 +16,8 @@ class CustomTerminal {
   }
 
   initialize() {
-    DraftLog(console).addLineListener(process.stdin)
+    console.info('\n🚀 Running...\n');
+    DraftLog.into(console).addLineListener(process.stdin)
     this.terminal = readline.createInterface({
       input: process.stdin,
       output: process.stdout
@@ -24,19 +27,23 @@ class CustomTerminal {
 
   initTable(database = []) {
     const data = database.map(item => new Income(item).format())
-    const table = chalkTable(terminalConfig.table, data)
-    this.print = console.draft(table)
-    this.data = data
+    this.print = console.draft
+    this.data = data    
   }
 
   updateTable(income) {
     this.data.push(new Income(income).format())
-    const table = chalkTable(terminalConfig.table, this.data)
-    this.print(table)
+    console.log(chalk.green(`\n  ${registerInserted}`))
+    
   }
 
-  message(text = '') {
-    return new Promise(resolve => this.terminal.question(text, resolve))
+  printTable() {
+    this.print(chalkTable(TABLE_OPTIONS, this.data))
+  }
+
+  message(description, label = '') {
+    if(description) console.log(`\n${description}`)
+    return new Promise(resolve => this.terminal.question(label, resolve))
   }
 
   close() {

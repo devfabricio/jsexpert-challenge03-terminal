@@ -4,9 +4,9 @@ const API_BASE_URL = 'http://localhost:3000';
 
 class IncomeRepository {
   async makeRequest(url) {
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       http.get(url, (response) => {
-        const result = ''
+        let result = ''
         response.on('data', (chunk) => {
           result += chunk
         })
