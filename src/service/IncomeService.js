@@ -8,7 +8,7 @@ class IncomeService {
   }
 
   async generateIncomeFromString(incomeString, delimiter = ';') {
-    const [position, expectation] = incomeString.split(delimiter);
+    let [position, expectation] = incomeString.split(delimiter);
     if(this.isValidData(position, expectation)) {
       const conversions = await this.incomeRepository.getConversions()
       return {
@@ -41,7 +41,7 @@ class IncomeService {
     if(!position) {
       throw new Error(invalidPosition)
     }
-    if(Number.isNaN(+expectation)) {
+    if(Number.isNaN(+expectation) || !expectation.length || +expectation < 0) {
       throw new Error(invalidExpectation)
     }
     return true

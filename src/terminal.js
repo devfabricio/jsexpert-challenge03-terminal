@@ -1,11 +1,8 @@
 import DraftLog from 'draftlog';
 import chalkTable from 'chalk-table';
-import chalk from 'chalk';
 import readline from 'readline';
 import terminalConfig from './config/terminal.js';
 import Income from './entity/Income.js';
-import messages from './config/messages.js';
-const { success : { registerInserted } } = messages
 
 const TABLE_OPTIONS = terminalConfig.table;
 
@@ -25,32 +22,31 @@ class CustomTerminal {
     this.initTable()
   }
 
-  initTable(database = []) {
-    const data = database.map(item => new Income(item).format())
+  initTable() {
     this.print = console.draft
-    this.data = data    
+    this.printTable()
   }
 
   updateTable(income) {
-    this.data.push(new Income(income).format())
-    console.log(chalk.green(`\n  ${registerInserted}`))
-    
+    this.data.push(this.formatIncome(income))
   }
 
   printTable() {
     this.print(chalkTable(TABLE_OPTIONS, this.data))
   }
 
-  message(description, label = '') {
+  message({ label = '', description }) {
     if(description) console.log(`\n${description}`)
     return new Promise(resolve => this.terminal.question(label, resolve))
+  }
+
+  formatIncome(income) {
+    return new Income(income).format()
   }
 
   close() {
     this.terminal.close()
   }
-
-  // TODO: You'll need more methods down here as well, be creative
 }
 
 export default CustomTerminal;

@@ -1,6 +1,8 @@
 import CustomTerminal from './terminal.js';
 import IncomeService from './service/IncomeService.js';
 import chalk from 'chalk';
+import messages from './config/messages.js';
+const { success : { registerInserted } } = messages
 
 const VOCABULARY = {
   STOP: ':q',
@@ -13,19 +15,19 @@ const service = new IncomeService();
 
 async function mainLoop() {
   try {
-    terminal.printTable()
-    const message = await terminal.message('Qual o seu cargo e pretensão salarial em BRL?', '> Insira: ')
+    const message = await terminal.message({ label: '> Insira: ', description: 'Qual o seu cargo e pretensão salarial em BRL?' })
     if(message === VOCABULARY.STOP) {
       terminal.close()
       return
     }
     const income = await service.generateIncomeFromString(message)
     terminal.updateTable(income)
-    return mainLoop()
+    console.log(chalk.green(`\n  ${registerInserted}`))
   } catch (error) {
     console.log(chalk.red(`\n  Error@mainLoop: ${error.message}`))
-    return mainLoop()
   }
+  terminal.printTable()
+  return mainLoop()
 }
 
 await mainLoop();

@@ -19,6 +19,7 @@ class Income {
 
   format() {
     return {
+      id: this.id,
       position: this.position,
       expectation: Income.formatCurrency(this.expectation),
       conversion01: Income.formatCurrency(this.conversion01),
